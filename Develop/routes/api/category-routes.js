@@ -24,12 +24,19 @@ router.post('/', async (req, res) => {
   res.json({message: "created new category"});
 });
 
-router.put('/:id', (req, res) => {
+router.put('/:id', async (req, res) => {
   // update a category by its `id` value
+  const id = req.params.id;
+  const updateCategory = req.body;
+  const modifiedCategory = await Category.update(updateCategory, {where:{id: id}})
+  res.json({message: `updated category with id ${id}`});
 });
 
-router.delete('/:id', (req, res) => {
+router.delete('/:id', async(req, res) => {
   // delete a category by its `id` value
+  const id = req.params.id;
+  const destroyedCategory = await Category.destroy({where:{id}})
+  res.json({message: `destroyed category with id ${id}`});
 });
 
 module.exports = router;
